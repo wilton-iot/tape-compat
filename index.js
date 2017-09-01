@@ -96,5 +96,7 @@ define(["assert"], function(assert) {
         return res;
     };
     
+    test.expectedDeprecations = function() {};
+    
     return test;
 });
