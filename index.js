@@ -44,7 +44,8 @@ define(["assert"], function(assert) {
         module: function(label) {
             print("test: " + label);
         },
-        config: {}
+        config: {},
+        assert: assert
     };
 
     test.expect = function(actual) {
