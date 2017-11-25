@@ -33,7 +33,10 @@ define(["assert"], function(assert) {
 
     test.asyncTest = test;
     test.describe = test;
-    test.it = test;
+    test.it = function(label, func) {
+        print("test: " + label);
+        func(function(){ });
+    };
     test.after = test;
 
     test.suite = function(label) {
@@ -75,6 +78,20 @@ define(["assert"], function(assert) {
                 be: function(expected) {
                     assert.strictEqual(actual, expected);
                 }
+            },
+
+            not: {
+                toBe: function(expected) {
+                    assert(actual !== expected);
+                },
+
+                toThrow: function() {
+                    assert.doesNotThrow(actual);
+                }
+            },
+
+            toThrow: function() {
+                assert.throws(actual);
             }
         };
 
@@ -94,6 +111,14 @@ define(["assert"], function(assert) {
             assert.equal(actual.length, 0);
         };
 
+        res.toBe = res.to.be;
+
+        res.toEqual = res.to.eql;
+
+        res.toBeUndefined = function() {
+            assert("undefined" === typeof(actual));
+        };
+        
         return res;
     };
     
