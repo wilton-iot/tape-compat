@@ -77,6 +77,11 @@ define(["assert"], function(assert) {
                 },
                 be: function(expected) {
                     assert.strictEqual(actual, expected);
+                },
+                "throw": function() {
+                    assert.throws(actual);
+                },
+                deep: {
                 }
             },
 
@@ -89,10 +94,6 @@ define(["assert"], function(assert) {
                     assert.doesNotThrow(actual);
                 }
             },
-
-            toThrow: function() {
-                assert.throws(actual);
-            }
         };
 
         res.to.be.ok = function() {
@@ -111,12 +112,49 @@ define(["assert"], function(assert) {
             assert.equal(actual.length, 0);
         };
 
+        res.to.deep.equal = res.to.eql;
+
         res.toBe = res.to.be;
 
         res.toEqual = res.to.eql;
 
+        res.toThrow = res.to.throw;
+
+        res.toThrowError = res.to.throw;
+
+        res.toBeTruthy = res.to.be.ok;
+
+        res.toEqualMatch  = function(arr) {
+            assert(actual.length === arr.length);
+            for (var i = 0; i < arr.length; i++) {
+                assert.equal(actual[i], arr[i]);
+            }
+        };
+
+        res.toBeNull = function() {
+            assert(null === actual);
+        };
+
         res.toBeUndefined = function() {
             assert("undefined" === typeof(actual));
+        };
+
+        res.to.be.an = {
+            instanceOf: function(clazz) {
+                assert(actual instanceof clazz);
+            }
+        };
+
+        res.toBeGreaterThan = function(expected) {
+            assert(actual > expected);
+        };
+
+        res.toBeFalsy = function() {
+            assert(!actual);
+        };
+
+        res.toContain = function(subs) {
+            assert(-1 !== actual.indexOf(subs));
         };
         
         return res;
