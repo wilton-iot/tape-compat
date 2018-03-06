@@ -5,7 +5,7 @@
  */
 
 // assorted test-related globals required by "runNodeTests"
-define(["assert"], function(assert) {
+define(["assert", "lodash/isEqual"], function(assert, isEqual) {
     "use strict";
       
     function test(label, func, func2) {
@@ -93,7 +93,7 @@ define(["assert"], function(assert) {
                 toThrow: function() {
                     assert.doesNotThrow(actual);
                 }
-            },
+            }
         };
 
         res.to.be.ok = function() {
@@ -154,7 +154,20 @@ define(["assert"], function(assert) {
         };
 
         res.toContain = function(subs) {
-            assert(-1 !== actual.indexOf(subs));
+            if ("function" === typeof(actual)) {
+                assert(-1 !== actual.indexOf(subs));
+            } else {
+                for(var i = 0; i < arguments.length; i++) {
+                    var contains = false;
+                    for (var j = 0; j < actual.length; j++) {
+                        if (isEqual(actual[j], arguments[i])) {
+                            contains = true;
+                            break;
+                        }
+                    }
+                    assert(contains);
+                }
+            }
         };
         
         return res;
