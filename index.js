@@ -37,6 +37,7 @@ define(["assert", "lodash/isEqual"], function(assert, isEqual) {
         print("test: " + label);
         func(function(){ });
     };
+    test.it.skip = function() { };
     test.after = test;
 
     test.suite = function(label) {
